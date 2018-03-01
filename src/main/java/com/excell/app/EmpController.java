@@ -1,6 +1,7 @@
 package com.excell.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,14 @@ public class EmpController {
 	}
 
 	@PostMapping(path = "/hello")
-	public ResponseEntity<Object> getObj(@RequestParam("file") MultipartFile mFile) {
+	public ResponseEntity<Object> getObj(@RequestParam("file") MultipartFile mFile)
+			throws IllegalStateException, IOException {
+
 		File file = new File(mFile.getOriginalFilename());
+		/**
+		 * mFile.transferTo(file);
+		 */
+
 		PoijiOptions options = PoijiOptionsBuilder.settings(1).build();
 		List<Employee> employees = Poiji.fromExcel(file, Employee.class, options);
 		return new ResponseEntity<Object>(employees, HttpStatus.OK);
