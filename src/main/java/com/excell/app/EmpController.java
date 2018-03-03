@@ -23,7 +23,7 @@ public class EmpController {
 	@GetMapping(path = "/test")
 	public ResponseEntity<Object> test() {
 		List<Employee> employees = new ArrayList<>();
-		employees.add(new Employee(101, "Shahzad Hussain", "husssainshahzad", 26, true, "07/02/1992"));
+		employees.add(new Employee(101, "Shahzad Hussain", "shahzada", 26, true, "07/02/1992"));
 		return new ResponseEntity<Object>(employees, HttpStatus.OK);
 	}
 
@@ -35,7 +35,11 @@ public class EmpController {
 		/**
 		 * mFile.transferTo(file);
 		 */
-
+		try {
+			mFile.transferTo(file);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
 		PoijiOptions options = PoijiOptionsBuilder.settings(1).build();
 		List<Employee> employees = Poiji.fromExcel(file, Employee.class, options);
 		return new ResponseEntity<Object>(employees, HttpStatus.OK);
